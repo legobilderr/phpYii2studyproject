@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Blog;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -45,8 +46,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             ['attribute'=>'url','format'=>'url'],
-            ['attribute'=>'status_id','filter'=>\common\models\Blog::getStatusList(),'value'=>'statusName'],
+            ['attribute'=>'status_id','filter'=> Blog::STATUS_LIST,'value'=>'statusName'],
             'sort',
+            'date_create:datetime',
+            'date_update:datetime',
             ['attribute'=>'tags','value'=>'tagsAsString'],
         ],
     ]); ?>
