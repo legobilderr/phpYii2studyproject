@@ -1,9 +1,11 @@
 <?php
 
+use common\models\Blog;
 use common\models\Tag;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use vova07\imperavi\Widget;
 
@@ -32,12 +34,13 @@ use vova07\imperavi\Widget;
                 ['green', '<span class="label-green">green</span>'],
                 ['blue', '<span class="label-blue">blue</span>'],
             ],
+            'imageUpload' => Url::to(['/site/save-redactor-img','sub'=>'blog']),
         ],
     ]);?>
 
     <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status_id')->dropDownList(['off','on']) ?>
+    <?= $form->field($model, 'status_id')->dropDownList(Blog::STATUS_LIST) ?>
 
     <?= $form->field($model, 'sort')->textInput() ?>
 
