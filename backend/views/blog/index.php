@@ -48,6 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute'=>'url','format'=>'url'],
             ['attribute'=>'status_id','filter'=> Blog::STATUS_LIST,'value'=>'statusName'],
             'sort',
+            'smallImage:image',
             'date_create:datetime',
             'date_update:datetime',
             ['attribute'=>'tags','value'=>'tagsAsString'],

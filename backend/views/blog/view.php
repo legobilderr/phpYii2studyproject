@@ -37,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'sort',
             'author.username',
             'tagsAsString',
+            'smallImage:image',
         ],
     ]) ?>
 
