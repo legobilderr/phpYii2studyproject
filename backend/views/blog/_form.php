@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Blog;
+use common\models\ImageManager;
 use common\models\Tag;
 use kartik\file\FileInput;
 use kartik\select2\Select2;
@@ -18,47 +19,47 @@ use vova07\imperavi\Widget;
 <div class="blog-form">
 
     <?php $form = ActiveForm::begin([
-            'options'=>['enctype'=>'multipart/form-data'],
+        'options' => ['enctype' => 'multipart/form-data'],
     ]); ?>
 
 
     <div class="row">
-    <?= $form->field($model, 'file',['options'=>['class'=>'col-xs-6']])->widget(FileInput::classname(),[
-            'options'=>['accept'=>'image/*'],
+        <?= $form->field($model, 'file', ['options' => ['class' => 'col-xs-6']])->widget(FileInput::classname(), [
+            'options' => ['accept' => 'image/*'],
             'pluginOptions' => [
                 'showCaption' => false,
                 'showRemove' => false,
                 'showUpload' => false,
                 'browseClass' => 'btn btn-primary btn-block',
                 'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-                'browseLabel' =>  'Выбрать фото'
+                'browseLabel' => 'Выбрать фото'
             ],
-    ]) ?>
+        ]) ?>
 
-    <?= $form->field($model, 'title',['options'=>['class'=>'col-xs-6']])->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'title', ['options' => ['class' => 'col-xs-6']])->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'url',['options'=>['class'=>'col-xs-6']])->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'url', ['options' => ['class' => 'col-xs-6']])->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status_id',['options'=>['class'=>'col-xs-6']])->dropDownList(Blog::STATUS_LIST) ?>
+        <?= $form->field($model, 'status_id', ['options' => ['class' => 'col-xs-6']])->dropDownList(Blog::STATUS_LIST) ?>
 
-    <?= $form->field($model, 'sort',['options'=>['class'=>'col-xs-6']])->textInput() ?>
+        <?= $form->field($model, 'sort', ['options' => ['class' => 'col-xs-6']])->textInput() ?>
 
-    <?= $form->field($model, 'tags_array',['options'=>['class'=>'col-xs-6']])->widget(Select2::classname(), [
-        'data' => ArrayHelper::map( Tag::find()->all(),'name','name'),
-        'language' => 'ru',
-        'options' => ['placeholder' => 'Выбрать тэги  ...','multiple'=>true],
-        'pluginOptions' => [
-            'allowClear' => true,
-            'tags' => true,
-            'maximumInputLength' => 10
-    ],
-    ]);?>
+        <?= $form->field($model, 'tags_array', ['options' => ['class' => 'col-xs-6']])->widget(Select2::classname(), [
+            'data' => ArrayHelper::map(Tag::find()->all(), 'name', 'name'),
+            'language' => 'ru',
+            'options' => ['placeholder' => 'Выбрать тэги  ...', 'multiple' => true],
+            'pluginOptions' => [
+                'allowClear' => true,
+                'tags' => true,
+                'maximumInputLength' => 10
+            ],
+        ]); ?>
     </div>
     <?= $form->field($model, 'text')->widget(Widget::className(), [
         'settings' => [
             'lang' => 'ru',
             'minHeight' => 200,
-            'formatting'=> ['p', 'blockquote', 'h2','h1'],
+            'formatting' => ['p', 'blockquote', 'h2', 'h1'],
             'plugins' => [
                 'clips',
                 'fullscreen',
@@ -69,14 +70,42 @@ use vova07\imperavi\Widget;
                 ['green', '<span class="label-green">green</span>'],
                 ['blue', '<span class="label-blue">blue</span>'],
             ],
-            'imageUpload' => Url::to(['/site/save-redactor-img','sub'=>'blog']),
+            'imageUpload' => Url::to(['/site/save-redactor-img', 'sub' => 'blog']),
         ],
-    ]);?>
+    ]); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
+
     <?php ActiveForm::end(); ?>
+    <?= FileInput::widget([
+        'name' => 'ImageManager[attachment]',
+        'options' => [
+            'multiple' => true
+        ],
+        'pluginOptions' => [
+            'uploadUrl' => Url::to(['/site/save-img']),
+            'uploadExtraData' => [
+                'ImageManager[class]' => $model->formName(),
+                'ImageManager[item_id]' => $model->id
+            ],
+            'maxFileCount' => 10
+        ]
+    ]) ?>
+    <div>
+        <?= $form->field($model, 'file', ['options' => ['class' => 'col-xs-6']])->widget(FileInput::classname(), [
+            'options' => ['accept' => 'image/*'],
+            'pluginOptions' => [
+                'showCaption' => false,
+                'showRemove' => false,
+                'showUpload' => false,
+                'browseClass' => 'btn btn-primary btn-block',
+                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                'browseLabel' => 'Выбрать фото'
+            ],
+        ]) ?>
+    </div>
 
 </div>
